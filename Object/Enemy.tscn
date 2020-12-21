@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Object/Enemy.gd" type="Script" id=1]
+[ext_resource path="res://start-assets/enemy.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 45.1069, 17.49 )
+
+[node name="Enemy" type="KinematicBody2D"]
+position = Vector2( 237.602, 160.181 )
+collision_layer = 2
+collision_mask = 21
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -48 )
+texture = ExtResource( 2 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+visible = false
+position = Vector2( -1.41249, -46.725 )
+scale = Vector2( 4.63392, 5.29463 )
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
+visible = false
+position = Vector2( 4.42642, -45.8904 )
+scale = Vector2( 4.18198, 2.69706 )
+process_parent = true
+physics_process_parent = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( 0, 2.94315 )
+polygon = PoolVector2Array( 8.10699, -0.251907, -10.3927, -1.0928, -60.4261, -99.4777, 67.8106, -98.6368 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 0.420441, -79.8853 )
+shape = SubResource( 1 )
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
