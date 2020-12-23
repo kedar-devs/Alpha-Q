@@ -4,16 +4,16 @@
 [ext_resource path="res://Object/Tile.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 48.7779, 47.6409 )
+extents = Vector2( 48.7779, 45.6159 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 48.1992, 50.4007 )
+extents = Vector2( 48.1992, 52.3043 )
 
 [node name="Tile" type="KinematicBody2D"]
 position = Vector2( 230.306, 188.523 )
 collision_mask = 30
 script = ExtResource( 2 )
-speed = Vector2( 600, 4000 )
+speed = Vector2( 600, 24000 )
 gravity = 4000.0
 
 [node name="Sprite" type="Sprite" parent="."]

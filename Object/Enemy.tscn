@@ -3,48 +3,54 @@
 [ext_resource path="res://Object/Enemy.gd" type="Script" id=1]
 [ext_resource path="res://start-assets/enemy.png" type="Texture" id=2]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 45.1069, 17.49 )
-
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 40.482, 10 )
 
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 45.1069, 17.49 )
+
 [node name="Enemy" type="KinematicBody2D"]
-position = Vector2( 237.602, 160.181 )
+position = Vector2( 238.022, 121.5 )
 collision_layer = 2
 collision_mask = 21
 script = ExtResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0, -48 )
-texture = ExtResource( 2 )
+[node name="PlatformDetector" type="Area2D" parent="."]
+position = Vector2( 0.840897, 48.3516 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformDetector"]
+position = Vector2( -2.10225, -27.3292 )
+scale = Vector2( 0.5, 0.5 )
+shape = SubResource( 2 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
-position = Vector2( -1.41249, -46.725 )
-scale = Vector2( 4.63392, 5.29463 )
+position = Vector2( -0.571594, 1.62663 )
+scale = Vector2( 3, 4 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0.840897, 0.351624 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
-position = Vector2( 4.42642, -45.8904 )
+position = Vector2( 5.26732, 2.46123 )
 scale = Vector2( 4.18198, 2.69706 )
 process_parent = true
 physics_process_parent = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-position = Vector2( 0, 2.94315 )
-polygon = PoolVector2Array( 8.10699, -0.251907, -10.3927, -1.0928, -60.4261, -99.4777, 67.8106, -98.6368 )
+position = Vector2( -0.420456, 26.9087 )
+scale = Vector2( 0.5, 0.5 )
+polygon = PoolVector2Array( 7.80585, 4.5423, -15.7393, 1.17871, -60.4261, -99.4777, 67.8106, -98.6368 )
 
 [node name="Area2D" type="Area2D" parent="."]
+position = Vector2( 0.840897, 48.3516 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2( 0.420441, -79.8853 )
+position = Vector2( -1.52588e-05, -64.3287 )
+scale = Vector2( 0.5, 0.5 )
 shape = SubResource( 1 )
-
-[node name="PlatformDetector" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformDetector"]
-position = Vector2( -0.840899, -7.14761 )
-shape = SubResource( 2 )
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
 [connection signal="area_entered" from="PlatformDetector" to="." method="_on_PlatformDetector_area_entered"]
 [connection signal="area_exited" from="PlatformDetector" to="." method="_on_PlatformDetector_area_exited"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]

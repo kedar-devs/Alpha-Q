@@ -7,12 +7,11 @@ func init(_position):
 	set_physics_process(false)
 	gravity=0
 	velocity.y=gravity
-	speed.x=50
+
 	velocity.x=-speed.x
 	position=_position
-	$CollisionPolygon2D.build_mode=$CollisionPolygon2D.build_mode
-	$Sprite.scale=Vector2(0.5,0.5)
 	$CollisionPolygon2D.scale=Vector2(0.5,0.5)
+	$Sprite.scale=Vector2(0.5,0.5)
 	$Area2D/CollisionShape2D.scale=Vector2(0.5,0.5)
 	$PlatformDetector/CollisionShape2D.scale=Vector2(0.5,0.5)
 	

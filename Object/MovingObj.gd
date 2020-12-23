@@ -2,7 +2,7 @@ extends Area2D
 onready var player=preload("res://Object/Tile.tscn")
 signal tilegone
 onready var move_tween=$MoveTween
-var move_range=150
+var move_range=250
 var move_speed=1.0
 var length=1.5
 var bredth=0.4
@@ -37,6 +37,5 @@ func set_tween(object=null,key=null):
 	
 
 
-func _on_MovingObj_body_exited(body):
-	
+func _on_MovingObj_body_exited(body):	
 	emit_signal("enemyOn",body)

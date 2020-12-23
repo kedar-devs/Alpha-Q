@@ -2,16 +2,17 @@ extends Node
 var Block=preload("res://Object/Tile.tscn")
 var Tile=preload("res://Object/MovingObj.tscn")
 var Enemy=preload("res://Object/Enemy.tscn")
-enum EnemyExists{ON,OFF}
+enum EnemyExists{OFF,ON}
 var score=0
 var player
 var level=0
-var modes=EnemyExists.ON
+var modes=EnemyExists.OFF
 func _ready():
 	randomize()
 	new_game()
 func new_game():
 	level=0
+	score=0
 	$Camera2D.position = $StartPosition.position+Vector2(0,-400)
 	player=Block.instance()
 	player.position=$StartPosition.position
@@ -22,7 +23,7 @@ func new_game():
 	spawn_tile($StartPosition.position)
 	
 	
-func spawn_enimies(_position=null):
+func spawn_enimies(_position):
 	var enemy=Enemy.instance()
 	add_child(enemy)
 	enemy.init(_position)
@@ -32,6 +33,7 @@ func set_enemy(_mode,_position):
 	modes=_mode
 	match modes:
 		EnemyExists.OFF:
+			print('in off')
 			return
 		EnemyExists.ON:
 			spawn_enimies(_position+Vector2(0,-25))
@@ -41,7 +43,7 @@ func spawn_tile(_position=null):
 	
 	var platform=Tile.instance()
 	if _position==null:
-		var x=rand_range(-150,250)
+		var x=rand_range(1,1)
 		var y=rand_range(-300,-150)
 		_position=player.position+Vector2(x,y)
 	else:
@@ -58,7 +60,7 @@ func _on_player_landed(object):
 	$Camera2D.position=object.position+Vector2(0,-150)
 	call_deferred("spawn_tile")
 	score+=1
-	if(score%1==0):
+	if(score%5==0):
 		level+=1
 
 func _on_enemy_killed(object):
@@ -66,7 +68,10 @@ func _on_enemy_killed(object):
 	
 func _prevent_fall(object):
 	print("Hello")
-#	object.changedir()
+	if object:
+		object.changedir()
+	else:
+		return
 func _free_tile(object):
 	object.disappear()
 	
@@ -74,7 +79,7 @@ func _free_tile(object):
 func choices(weights):
 	var sum=0
 	for weight in weights:
-		sum+-weight
+		sum+=weight
 	var num=rand_range(0,sum)
 	for i in weights.size():
 		if num<weights[i]:
