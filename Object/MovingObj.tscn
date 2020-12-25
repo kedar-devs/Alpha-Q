@@ -34,7 +34,9 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[node name="MovingObj" type="Area2D"]
+[node name="MovingObj" type="Area2D" groups=[
+"blocks",
+]]
 position = Vector2( 249.065, 426.692 )
 collision_layer = 4
 collision_mask = 11
@@ -55,6 +57,7 @@ shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/free = SubResource( 2 )
+[connection signal="area_entered" from="." to="." method="_on_MovingObj_area_entered"]
 [connection signal="body_exited" from="." to="." method="_on_MovingObj_body_exited"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="tween_completed" from="MoveTween" to="." method="set_tween"]

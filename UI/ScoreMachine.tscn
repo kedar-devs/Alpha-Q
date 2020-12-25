@@ -1,0 +1,131 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://start-assets/montserrat_extrabold.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://UI/ScoreMachine.gd" type="Script" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 36
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 64
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "display"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("Message:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Message:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Message:custom_fonts/font:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 64, 190 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "init"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Message:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[node name="ScoreMachine" type="CanvasLayer"]
+script = ExtResource( 2 )
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -85.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 460.0
+margin_bottom = 65.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreText" type="Label" parent="MarginContainer/HBoxContainer"]
+margin_left = 328.0
+margin_right = 436.0
+margin_bottom = 45.0
+custom_fonts/font = SubResource( 1 )
+text = "Score"
+align = 2
+valign = 1
+
+[node name="Score" type="Label" parent="MarginContainer/HBoxContainer"]
+margin_left = 440.0
+margin_top = 15.0
+margin_right = 440.0
+margin_bottom = 29.0
+
+[node name="Message" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -390.0
+margin_top = -100.5
+margin_right = 390.0
+margin_bottom = 100.5
+custom_fonts/font = SubResource( 2 )
+text = "message"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "init"
+anims/display = SubResource( 3 )
+anims/init = SubResource( 4 )
