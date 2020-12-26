@@ -34,7 +34,7 @@ func cal_velocity(linear_velocity:Vector2,speed:Vector2,direction:Vector2,jump_i
 	if direction.y==-1.0:
 		$Jump.play()
 		dir=-1
-		jump_height=30
+		jump_height=50
 		up=0
 	if jump_height>0:
 		new_velocity.y+=(speed.y*dir)
@@ -58,13 +58,15 @@ func stopfalling(object):
 	velocity=move_and_slide(Vector2.ZERO)
 	up=-1
 	dir=-1
+	print(object)
 	object.disappear()
 func jump():
 	print("in jump")
 	
 	velocity=move_and_slide(Vector2.ZERO)
 	
-
+func changedir():
+	return
 
 func _on_VisibilityNotifier2D_screen_exited():
 	emit_signal("dead")

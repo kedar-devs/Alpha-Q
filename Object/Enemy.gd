@@ -10,10 +10,10 @@ func init(_position):
 	speed.x=50
 	velocity.x=-speed.x
 	position=_position
-	$CollisionPolygon2D.scale=Vector2(0.5,0.5)
-	$Sprite.scale=Vector2(0.5,0.5)
-	$Area2D/CollisionShape2D.scale=Vector2(0.5,0.5)
-	$PlatformDetector/CollisionShape2D.scale=Vector2(0.5,0.5)
+	#$CollisionPolygon2D.scale=Vector2(0.5,0.5)
+	#$Sprite.scale=Vector2(0.5,0.5)
+	#$Area2D/CollisionShape2D.scale=Vector2(0.5,0.5)
+	#$PlatformDetector/CollisionShape2D.scale=Vector2(0.5,0.5)
 	
 func _physics_process(delta):
 	
@@ -29,9 +29,15 @@ func changedir():
 
 
 func _on_Area2D_area_entered(area):
-	emit_signal("killenemy")
+#	emit_signal("killenemy",area)
+	#queue_free()
+	pass
 
-
+func disappear():
+	print("in disappear")
+	$AnimationPlayer.play("Dying")
+	yield($AnimationPlayer,"animation_finished")
+	queue_free()
 func _on_PlatformDetector_area_entered(area):
 	gravity=0
 

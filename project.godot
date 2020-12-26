@@ -73,3 +73,4 @@ pointing/emulate_touch_from_mouse=true
 
 quality/driver/driver_name="GLES2"
 environment/default_environment="res://default_env.tres"
+quality/dynamic_fonts/use_oversampling=false

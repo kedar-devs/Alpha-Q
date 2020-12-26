@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://UI/Screens.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Object/LevelTemplate.tscn" type="PackedScene" id=3]
 [ext_resource path="res://UI/ScoreMachine.tscn" type="PackedScene" id=4]
 [ext_resource path="res://start-assets/AUD-20200911-WA0020.ogg" type="AudioStream" id=5]
+[ext_resource path="res://UI/Background.tscn" type="PackedScene" id=6]
 
 [node name="main" type="Node"]
 script = ExtResource( 1 )
@@ -28,4 +29,6 @@ smoothing_speed = 8.0
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
+
+[node name="Background" parent="." instance=ExtResource( 6 )]
 [connection signal="start_game" from="Screens" to="." method="new_game"]

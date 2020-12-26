@@ -6,7 +6,7 @@
 [ext_resource path="res://start-assets/audio/88.ogg" type="AudioStream" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 48.7779, 45.6159 )
+extents = Vector2( 46.7029, 45.6159 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 48.1992, 52.3043 )

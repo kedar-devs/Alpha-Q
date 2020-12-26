@@ -5,7 +5,7 @@ var Enemy=preload("res://Object/Enemy.tscn")
 enum EnemyExists{OFF,ON}
 var score=0
 var player
-var level=0
+export var level=0
 var modes=EnemyExists.OFF
 func _ready():
 	randomize()
@@ -55,14 +55,14 @@ func spawn_tile(_position=null):
 	
 	if _position==null:
 		var x=75
-		var y=rand_range(-800,-650)
+		var y=-800
 		_position=player.position+Vector2(x,y)
 		add_child(platform)
 		add_child(platform1)
 		add_child(platform2)
-		platform.init(_position)
-		platform1.init(_position+Vector2(rand_range(175,175-level),190))
-		platform2.init(_position+Vector2(rand_range(-175,-175+level),-228))
+		platform.init(_position,level)
+		platform1.init(_position+Vector2(rand_range(175,175-level),190),level)
+		platform2.init(_position+Vector2(rand_range(-175,-175+level),-228),level)
 		platform.connect("enemyOn",self,"_prevent_fall")
 		platform.connect("preventPlayer",self,"_make_fall")
 		platform1.connect("enemyOn",self,"_prevent_fall")
@@ -76,13 +76,13 @@ func spawn_tile(_position=null):
 		add_child(platform)
 		add_child(platform1)
 		add_child(platform4)
-		platform2.init(_position+Vector2(-175,-228))
-		platform5.init(_position+Vector2(-150,228))
+		platform2.init(_position+Vector2(-175,-228),level)
+		platform5.init(_position+Vector2(-150,228),level)
 		platform2.connect("enemyOn",self,"_prevent_fall")
 		platform2.connect("preventPlayer",self,"_make_fall")
-		platform.init(_position)
-		platform1.init(_position+Vector2(175,-114))
-		platform4.init(_position+Vector2(175,114))
+		platform.init(_position,level)
+		platform1.init(_position+Vector2(175,-114),level)
+		platform4.init(_position+Vector2(175,114),level)
 		platform.connect("enemyOn",self,"_prevent_fall")
 		platform.connect("preventPlayer",self,"_make_fall")
 		platform1.connect("enemyOn",self,"_prevent_fall")
@@ -91,8 +91,8 @@ func spawn_tile(_position=null):
 		platform4.connect("preventPlayer",self,"_make_fall")
 		platform5.connect("enemyOn",self,"_prevent_fall")
 		platform5.connect("preventPlayer",self,"_make_fall")
-	#set_enemy(_mode,_position)
-	spawn_enimies(_position+Vector2(0,-35))
+	set_enemy(_mode,_position)
+	#spawn_enimies(_position+Vector2(0,-37))
 func _on_player_landed(object):
 	print("in landing ")
 	player.stopfalling(object)
@@ -106,6 +106,7 @@ func _on_player_landed(object):
 		$ScoreMachine.show_message("Level")
 
 func _on_enemy_killed(object):
+	print("entering obj")
 	queue_free()
 	
 func _prevent_fall(object):
@@ -118,6 +119,8 @@ func _move_fall():
 	pass
 	
 func _free_tile(object):
+	if player.velocity.y<0:
+		return
 	object.disappear()
 	
 	
