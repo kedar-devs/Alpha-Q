@@ -7,7 +7,7 @@ func init(_position):
 	set_physics_process(false)
 	gravity=0
 	velocity.y=gravity
-
+	speed.x=50
 	velocity.x=-speed.x
 	position=_position
 	$CollisionPolygon2D.scale=Vector2(0.5,0.5)
@@ -20,7 +20,7 @@ func _physics_process(delta):
 	if edged or is_on_wall():
 		velocity.x*=-1
 	velocity.y=move_and_slide(velocity,Vector2.UP).y
-	print(velocity)
+	
 	edged=false
 		
 

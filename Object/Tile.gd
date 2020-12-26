@@ -34,12 +34,12 @@ func cal_velocity(linear_velocity:Vector2,speed:Vector2,direction:Vector2,jump_i
 	if direction.y==-1.0:
 		$Jump.play()
 		dir=-1
-		jump_height=45
+		jump_height=30
 		up=0
 	if jump_height>0:
 		new_velocity.y+=(speed.y*dir)
 		jump_height-=1
-		print(new_velocity,jump_height)
+		
 	else:
 		up=0
 		dir=0
@@ -51,16 +51,14 @@ func cal_velocity(linear_velocity:Vector2,speed:Vector2,direction:Vector2,jump_i
 	#move_and_slide(new_velocity)
 	return new_velocity
 
-func stopfalling():
+func stopfalling(object):
 	if velocity.y<0:
-		velocity.y=gravity
-		print('in here',velocity.y)
 		return
 	gravity=0
 	velocity=move_and_slide(Vector2.ZERO)
 	up=-1
 	dir=-1
-	
+	object.disappear()
 func jump():
 	print("in jump")
 	
@@ -79,8 +77,7 @@ func _on_Detectort_area_entered(area):
 		$Captured.play()
 		emit_signal("captured",area)
 	else:
-		velocity.y=gravity
-		dir=1
+		return
 
 
 func _on_Detectort_body_entered(body):

@@ -4,7 +4,7 @@ signal tilegone
 onready var move_tween=$MoveTween
 var move_range=200
 var move_speed=1.0
-var length=0.8
+var length=0.6
 var bredth=0.4
 signal enemyOn
 signal preventPlayer
@@ -32,6 +32,7 @@ func set_tween(object=null,key=null):
 	if move_range==0:
 		return
 	move_range*=-1
+	
 	move_speed=20
 	move_tween.interpolate_property(self,"position:x",position.x,position.x+move_range,move_speed,Tween.TRANS_QUAD,Tween.EASE_IN_OUT)
 	move_tween.start()
@@ -40,7 +41,7 @@ func set_tween(object=null,key=null):
 	
 
 
-func _on_MovingObj_body_exited(body):	
+func _on_MovingObj_body_exited(body):
 	emit_signal("enemyOn")
 
 
