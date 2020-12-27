@@ -2,11 +2,14 @@ extends Node
 var Block=preload("res://Object/Tile.tscn")
 var Tile=preload("res://Object/MovingObj.tscn")
 var Enemy=preload("res://Object/Enemy.tscn")
+var Bumper=preload("res://Object/Bumper.tscn")
 enum EnemyExists{OFF,ON}
+enum BumperExists{OFF,ON}
 var score=0
 var player
-export var level=0
+var level=0
 var modes=EnemyExists.OFF
+var bump=BumperExists.ON
 func _ready():
 	randomize()
 	$ScoreMachine.hide()
@@ -27,7 +30,11 @@ func new_game():
 	$ScoreMachine.show_message("JUMP!!")
 	if Settings.enable_music:
 		$Music.play()
-	
+func spawn_bumper(_position):
+	var bumpy=Bumper.instance()
+	add_child(bumpy)
+	bumpy.init(_position)
+	bumpy.connect("Jump_high",self,"_on_Bumper_touched")
 func spawn_enimies(_position):
 	var enemy=Enemy.instance()
 	add_child(enemy)
@@ -42,10 +49,18 @@ func set_enemy(_mode,_position):
 			return
 		EnemyExists.ON:
 			spawn_enimies(_position+Vector2(0,-25))
-			
+func set_Bumper(_mode,_position):
+	print('in mode',_mode)
+	bump=_mode
+	match modes:
+		EnemyExists.OFF:
+			print('in off')
+			return
+		EnemyExists.ON:
+			spawn_bumper(_position+Vector2(0,-75))
 func spawn_tile(_position=null):
 	var _mode=choices([10,level])
-	
+	var Bumper_choice=choices([level,10])
 	var platform=Tile.instance()
 	var platform1=Tile.instance()
 	var platform2=Tile.instance()
@@ -60,9 +75,13 @@ func spawn_tile(_position=null):
 		add_child(platform)
 		add_child(platform1)
 		add_child(platform2)
+		add_child(platform4)
 		platform.init(_position,level)
-		platform1.init(_position+Vector2(rand_range(175,175-level),190),level)
-		platform2.init(_position+Vector2(rand_range(-175,-175+level),-228),level)
+		platform1.init(_position+Vector2(rand_range(150,175-level),190),level)
+		platform2.init(_position+Vector2(rand_range(150,-175+level),-228),level)
+		platform4.init(_position+Vector2(50,100),level)
+		platform4.connect("enemyOn",self,"_prevent_fall")
+		platform4.connect("preventPlayer",self,"_make_fall")
 		platform.connect("enemyOn",self,"_prevent_fall")
 		platform.connect("preventPlayer",self,"_make_fall")
 		platform1.connect("enemyOn",self,"_prevent_fall")
@@ -92,9 +111,10 @@ func spawn_tile(_position=null):
 		platform5.connect("enemyOn",self,"_prevent_fall")
 		platform5.connect("preventPlayer",self,"_make_fall")
 	set_enemy(_mode,_position)
-	#spawn_enimies(_position+Vector2(0,-37))
+	set_Bumper(Bumper_choice,_position)
+	#spawn_enimies(_position+Vector2(0,-25))
 func _on_player_landed(object):
-	print("in landing ")
+	
 	player.stopfalling(object)
 	$Camera2D.position=object.position+Vector2(0,-400)
 	call_deferred("spawn_tile")
@@ -104,6 +124,8 @@ func _on_player_landed(object):
 	if(score%5==0):
 		level+=1
 		$ScoreMachine.show_message("Level")
+	else:
+		level=level
 
 func _on_enemy_killed(object):
 	print("entering obj")
@@ -123,7 +145,8 @@ func _free_tile(object):
 		return
 	object.disappear()
 	
-	
+func _on_Bumper_touched(object):
+	object.BumperJumper()
 func choices(weights):
 	var sum=0
 	for weight in weights:

@@ -1,18 +1,18 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://start-assets/montserrat_extrabold.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://UI/ScoreMachine.gd" type="Script" id=2]
+[ext_resource path="res://start-assets/VeganStylePersonalUse-5Y58.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 36
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=3]
 size = 64
-font_data = ExtResource( 1 )
+font_data = ExtResource( 3 )
 
-[sub_resource type="Animation" id=3]
-resource_name = "display"
+[sub_resource type="Animation" id=4]
 length = 0.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("Message:visible")
@@ -51,8 +51,7 @@ tracks/2/keys = {
 "values": [ 64, 190 ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "init"
+[sub_resource type="Animation" id=5]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Message:visible")
@@ -117,7 +116,7 @@ margin_left = -390.0
 margin_top = -100.5
 margin_right = 390.0
 margin_bottom = 100.5
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 text = "message"
 align = 1
 valign = 1
@@ -127,5 +126,5 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "init"
-anims/display = SubResource( 3 )
-anims/init = SubResource( 4 )
+anims/display = SubResource( 4 )
+anims/init = SubResource( 5 )

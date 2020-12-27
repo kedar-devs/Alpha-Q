@@ -50,7 +50,10 @@ func cal_velocity(linear_velocity:Vector2,speed:Vector2,direction:Vector2,jump_i
 	
 	#move_and_slide(new_velocity)
 	return new_velocity
-
+func BumperJumper():
+	up=-1
+	dir=-1
+	jump_height=50
 func stopfalling(object):
 	if velocity.y<0:
 		return
@@ -90,3 +93,4 @@ func _on_Detectort_body_entered(body):
 func _on_Detectort_area_exited(area):
 	gravity=4000
 	emit_signal("released",area)
+

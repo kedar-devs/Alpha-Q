@@ -7,7 +7,7 @@ func init(_position):
 	set_physics_process(false)
 	gravity=0
 	velocity.y=gravity
-	speed.x=50
+	speed.x=200
 	velocity.x=-speed.x
 	position=_position
 	#$CollisionPolygon2D.scale=Vector2(0.5,0.5)
@@ -25,6 +25,7 @@ func _physics_process(delta):
 		
 
 func changedir():
+	print("in changedir")
 	edged=true
 
 
