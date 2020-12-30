@@ -14,9 +14,9 @@ func _physics_process(delta):
 	velocity=move_and_slide(velocity)
 func get_direction(up):
 	#return Vector2(Input.get_action_strength("move_right")-Input.get_action_strength("move_left"),up)
-	if Input.get_accelerometer().x<0:
+	if Input.get_accelerometer().x<-50:
 		return Vector2(-1,up)
-	elif Input.get_accelerometer().x>0:
+	elif Input.get_accelerometer().x>50:
 		return Vector2(1,up)
 	else:
 		return Vector2(0,up)
