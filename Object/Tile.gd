@@ -5,6 +5,7 @@ signal released
 var jump_height=0
 var up=0
 var dir=0
+var touched=true
 func _physics_process(delta):
 	var jump_interrept=Input.is_action_just_released("move_up") and velocity.y<0.0
 	var direction=get_direction(up)
@@ -12,12 +13,19 @@ func _physics_process(delta):
 	velocity=cal_velocity(velocity,speed,direction,jump_interrept)
 	velocity=move_and_slide(velocity)
 func get_direction(up):
-	return Vector2(Input.get_action_strength("move_right")-Input.get_action_strength("move_left"),up)
+	#return Vector2(Input.get_action_strength("move_right")-Input.get_action_strength("move_left"),up)
+	if Input.get_accelerometer().x<0:
+		return Vector2(-1,up)
+	elif Input.get_accelerometer().x>0:
+		return Vector2(1,up)
+	else:
+		return Vector2(0,up)
 func _unhandled_input(event):
 	
 	if event is InputEventScreenTouch and event.pressed:
 		print("going up")
-		up=-1
+		if touched:
+			up=-1
 		#get_direction(up)
 	#if jump_height==0:
 	#	print("in else")
@@ -51,9 +59,8 @@ func cal_velocity(linear_velocity:Vector2,speed:Vector2,direction:Vector2,jump_i
 	#move_and_slide(new_velocity)
 	return new_velocity
 func BumperJumper():
-	up=-1
 	dir=-1
-	jump_height=50
+	jump_height=75
 func stopfalling(object):
 	if velocity.y<0:
 		return
@@ -61,6 +68,7 @@ func stopfalling(object):
 	velocity=move_and_slide(Vector2.ZERO)
 	up=-1
 	dir=-1
+	touched=false
 	print(object)
 	object.disappear()
 func jump():
@@ -94,3 +102,5 @@ func _on_Detectort_area_exited(area):
 	gravity=4000
 	emit_signal("released",area)
 
+func disappear():
+	return

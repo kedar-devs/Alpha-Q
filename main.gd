@@ -57,7 +57,8 @@ func set_Bumper(_mode,_position):
 			print('in off')
 			return
 		EnemyExists.ON:
-			spawn_bumper(_position+Vector2(0,-75))
+			var x=rand_range(175,-175)
+			spawn_bumper(_position+Vector2(x,-75))
 func spawn_tile(_position=null):
 	var _mode=choices([10,level])
 	var Bumper_choice=choices([level,10])
@@ -146,7 +147,12 @@ func _free_tile(object):
 	object.disappear()
 	
 func _on_Bumper_touched(object):
-	object.BumperJumper()
+	if object.velocity.y>0:
+		object.BumperJumper()
+		$Camera2D.position=object.position+Vector2(0,-400)
+		call_deferred("spawn_tile")
+	else:
+		return
 func choices(weights):
 	var sum=0
 	for weight in weights:

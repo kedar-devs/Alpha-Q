@@ -36,6 +36,10 @@ window/handheld/orientation="portrait"
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 
+[editor]
+
+convert_text_resources_to_binary_on_export=true
+
 [input]
 
 move_up={
@@ -72,5 +76,7 @@ pointing/emulate_touch_from_mouse=true
 [rendering]
 
 quality/driver/driver_name="GLES2"
+vram_compression/import_etc=true
+quality/reflections/texture_array_reflections.mobile=true
 environment/default_environment="res://default_env.tres"
 quality/dynamic_fonts/use_oversampling=false
