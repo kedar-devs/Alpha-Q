@@ -12,18 +12,19 @@ func _physics_process(delta):
 	
 	velocity=cal_velocity(velocity,speed,direction,jump_interrept)
 	velocity=move_and_slide(velocity)
+	
 func get_direction(up):
-	#return Vector2(Input.get_action_strength("move_right")-Input.get_action_strength("move_left"),up)
-	if Input.get_accelerometer().x<-50:
-		return Vector2(-1,up)
-	elif Input.get_accelerometer().x>50:
-		return Vector2(1,up)
-	else:
-		return Vector2(0,up)
+	return Vector2(Input.get_action_strength("move_right")-Input.get_action_strength("move_left"),up)
+	#if Input.get_accelerometer().x<-0.5:
+	#	return Vector2(-0.5,up)
+	#elif Input.get_accelerometer().x>0.5:
+	#	return Vector2(0.5,up)
+	#else:
+	#	return Vector2(0,up)
 func _unhandled_input(event):
 	
 	if event is InputEventScreenTouch and event.pressed:
-		print("going up")
+		
 		if touched:
 			up=-1
 		#get_direction(up)
@@ -47,10 +48,12 @@ func cal_velocity(linear_velocity:Vector2,speed:Vector2,direction:Vector2,jump_i
 	if jump_height>0:
 		new_velocity.y+=(speed.y*dir)
 		jump_height-=1
+		speed.y=speed.y-(50-jump_height)
 		
 	else:
 		up=0
 		dir=0
+		speed.y=800
 		$Jump.stop()
 		new_velocity.y=gravity*get_physics_process_delta_time()*3
 	if jump_interrept:
@@ -61,6 +64,7 @@ func cal_velocity(linear_velocity:Vector2,speed:Vector2,direction:Vector2,jump_i
 func BumperJumper():
 	dir=-1
 	jump_height=75
+	print("in bumpy jumpy")
 func stopfalling(object):
 	if velocity.y<0:
 		return
@@ -69,10 +73,10 @@ func stopfalling(object):
 	up=-1
 	dir=-1
 	touched=false
-	print(object)
+	
 	object.disappear()
 func jump():
-	print("in jump")
+	
 	
 	velocity=move_and_slide(Vector2.ZERO)
 	
@@ -80,13 +84,14 @@ func changedir():
 	return
 
 func _on_VisibilityNotifier2D_screen_exited():
+	print("invisible xd")
 	emit_signal("dead")
 	queue_free()
 
 
 func _on_Detectort_area_entered(area):
 	if velocity.y>0:
-		print("is captured")
+		
 		$Captured.play()
 		emit_signal("captured",area)
 	else:
@@ -94,6 +99,7 @@ func _on_Detectort_area_entered(area):
 
 
 func _on_Detectort_body_entered(body):
+	print("im a dead body",body)
 	emit_signal("dead")
 	queue_free()
 
@@ -102,5 +108,4 @@ func _on_Detectort_area_exited(area):
 	gravity=4000
 	emit_signal("released",area)
 
-func disappear():
-	return
+

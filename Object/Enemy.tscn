@@ -1,16 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Object/Enemy.gd" type="Script" id=1]
 [ext_resource path="res://start-assets/enemy.png" type="Texture" id=2]
-[ext_resource path="res://Object/Area2D.gd" type="Script" id=3]
+[ext_resource path="res://Object/EnemyArea.gd" type="Script" id=3]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 66.6696, 19.8443 )
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 38.9199, 10 )
-
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=1]
 resource_name = "Dying"
 length = 0.5
 tracks/0/type = "value"
@@ -38,6 +32,9 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 28.2894, 10 )
+
 [node name="Enemy" type="KinematicBody2D"]
 position = Vector2( 238.022, 121.5 )
 collision_layer = 2
@@ -45,34 +42,19 @@ collision_mask = 21
 script = ExtResource( 1 )
 speed = Vector2( 600, 1500 )
 
-[node name="Area2D" type="Area2D" parent="."]
-position = Vector2( 1.26137, -16.818 )
-collision_layer = 2
-collision_mask = 0
-script = ExtResource( 3 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2( -0.420471, -1.68179 )
-scale = Vector2( 0.5, 0.5 )
-shape = SubResource( 1 )
-
-[node name="PlatformDetector" type="Area2D" parent="."]
-position = Vector2( -0.420438, 26.0678 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformDetector"]
-position = Vector2( 0.840897, -1.68182 )
-scale = Vector2( 0.5, 0.5 )
-shape = SubResource( 2 )
-
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
-visible = false
-position = Vector2( -0.571594, 1.62663 )
-scale = Vector2( 3, 4 )
-
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0.840897, 0.351624 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( 0.840897, 0.351624 )
+scale = Vector2( 0.5, 0.5 )
+polygon = PoolVector2Array( -4.80673, -45.7746, -61.1469, 45.8833, 69.1922, 45.8833 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+position = Vector2( -1.62271, 1.62663 )
+scale = Vector2( 3.52556, 4 )
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
 visible = false
@@ -81,14 +63,17 @@ scale = Vector2( 4.18198, 2.69706 )
 process_parent = true
 physics_process_parent = true
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-position = Vector2( -1.52588e-05, 25.6474 )
-scale = Vector2( 0.5, 0.5 )
-polygon = PoolVector2Array( -2.28403, 8.74609, -12.3748, 8.74609, -60.4261, -99.4777, 67.8106, -98.6368 )
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Dying = SubResource( 3 )
-[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
-[connection signal="area_entered" from="PlatformDetector" to="." method="_on_PlatformDetector_area_entered"]
-[connection signal="area_exited" from="PlatformDetector" to="." method="_on_PlatformDetector_area_exited"]
+anims/Dying = SubResource( 1 )
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( -0.420441, -14.7157 )
+shape = SubResource( 2 )
+
+[node name="EnemyTween" type="Tween" parent="."]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="area_entered" from="Area2D" to="." method="disappear"]
+[connection signal="tween_completed" from="EnemyTween" to="." method="set_tween"]

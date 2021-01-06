@@ -11,7 +11,7 @@
 text = "Settings"
 
 [node name="Buttons" parent="MarginContainer/VBoxContainer" index="1"]
-margin_bottom = 329.0
+margin_bottom = 314.0
 
 [node name="Sound" type="TextureButton" parent="MarginContainer/VBoxContainer/Buttons" index="0" groups=[
 "buttons",
@@ -30,8 +30,8 @@ margin_bottom = 100.0
 texture_normal = ExtResource( 2 )
 
 [node name="Buttons2" parent="MarginContainer/VBoxContainer" index="2"]
-margin_top = 479.0
-margin_bottom = 579.0
+margin_top = 464.0
+margin_bottom = 564.0
 
 [node name="Return" type="TextureButton" parent="MarginContainer/VBoxContainer/Buttons2" index="0" groups=[
 "buttons",

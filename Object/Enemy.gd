@@ -2,49 +2,36 @@ extends "res://Object/Object.gd"
 signal killenemy
 var edged=false
 var SKY_FALL=Vector2.UP
-
+var enemy_move_range=320
+var enemy_move_speed=1
+onready var enemyTween=$EnemyTween
 func init(_position):
 	set_physics_process(false)
 	gravity=0
-	velocity.y=gravity
-	speed.x=200
+	velocity.y=0
+	speed.x=600
 	velocity.x=-speed.x
 	position=_position
-	#$CollisionPolygon2D.scale=Vector2(0.5,0.5)
+	set_tween()
+	#$Sprite/CollisionPolygon2D.shape=$Sprite/CollisionPolygon2D.shape.duplicate()
 	#$Sprite.scale=Vector2(0.5,0.5)
 	#$Area2D/CollisionShape2D.scale=Vector2(0.5,0.5)
 	#$PlatformDetector/CollisionShape2D.scale=Vector2(0.5,0.5)
+func set_tween(object=null,key=null):
+	if enemy_move_range==0:
+		return
 	
-func _physics_process(delta):
 	
-	if edged or is_on_wall():
-		velocity.x*=-1
-	velocity.y=move_and_slide(velocity,Vector2.UP).y
-	
-	edged=false
-		
-
-func changedir():
-	print("in changedir")
-	edged=true
-
-
-func _on_Area2D_area_entered(area):
-#	emit_signal("killenemy",area)
-	#queue_free()
-	pass
+	enemy_move_range*=-1
+	enemyTween.interpolate_property(self,"position:x",position.x,position.x+enemy_move_range,enemy_move_speed,Tween.TRANS_QUAD,Tween.EASE_IN_OUT)
+	enemyTween.start()
 
 func disappear():
-	print("in disappear")
+	
 	$AnimationPlayer.play("Dying")
 	yield($AnimationPlayer,"animation_finished")
 	queue_free()
-func _on_PlatformDetector_area_entered(area):
-	gravity=0
 
 
-
-func _on_PlatformDetector_area_exited(area):
-	print("skyfall down")
-	gravity=4000
+func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()

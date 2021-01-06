@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://UI/Tuitorail.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Object/MovingObj.tscn" type="PackedScene" id=2]
+[ext_resource path="res://start-assets/images/buttons/right.png" type="Texture" id=3]
+
+[node name="Page2" instance=ExtResource( 1 )]
+
+[node name="Text" parent="." index="2"]
+text = "jump on the moving tile 
+and prevent yourself from 
+falling down and end the
+game"
+
+[node name="MovingObj" parent="." index="3" instance=ExtResource( 2 )]
+position = Vector2( 243.726, 664.293 )
+
+[node name="Page3" type="TextureButton" parent="." index="4" groups=[
+"next",
+]]
+margin_left = 200.0
+margin_top = 806.321
+margin_right = 257.0
+margin_bottom = 853.321
+texture_normal = ExtResource( 3 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
